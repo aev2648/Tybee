@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Manager : MonoBehaviour {
     private List<GameObject> bees;
     private List<string> words = new List<string>();
-
+    public KeyCode checkword;
 
     public GameObject BeePF;
 
@@ -20,7 +20,7 @@ public class Manager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    
 	}
 
     void GenerateBees()
@@ -30,12 +30,16 @@ public class Manager : MonoBehaviour {
         {
             string temp = words[Random.Range(0, words.Count)];
             GameObject Bee = GameObject.Instantiate(BeePF);
-            Bee.transform.Translate(i, 0, 0);
+            Bee.transform.Translate(i, -3, 0);
             Bee.GetComponent<BeeScript>().word = temp;
             words.Remove(temp);
         }
         
         
         
+    }
+    IEnumerable CheckEnemies()
+    {
+
     }
 }
