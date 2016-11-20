@@ -4,18 +4,38 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class Manager : MonoBehaviour {
+    private List<GameObject> bees;
+    private List<string> words = new List<string>();
+
 
     public GameObject BeePF;
 
 	// Use this for initialization
 	void Start () {
-        GameObject Bee = GameObject.Instantiate(BeePF);
-        Text Bword = GameObject.Find("Bee").GetComponent<Text>() as Text;
-        Bword.text = Bee.GetComponent<BeeScript>().word;
+        words.Add("pear");
+        words.Add("apple");
+        words.Add("grape");
+        GenerateBees();
     }
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
+
+    void GenerateBees()
+    {
+        bees = new List<GameObject>();
+        for (int i = -4; i <= 4; i+= 4)
+        {
+            string temp = words[Random.Range(0, words.Count)];
+            GameObject Bee = GameObject.Instantiate(BeePF);
+            Bee.transform.Translate(i, 0, 0);
+            Bee.GetComponent<BeeScript>().word = temp;
+            words.Remove(temp);
+        }
+        
+        
+        
+    }
 }
