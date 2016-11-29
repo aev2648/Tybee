@@ -6,10 +6,11 @@ using UnityEngine.UI;
 public class Manager : MonoBehaviour {
     private List<GameObject> bees;
     private List<string> words = new List<string>();
-    public KeyCode checkword;
+    //public KeyCode checkword;
+
 
     public GameObject BeePF;
-
+ 
 	// Use this for initialization
 	void Start () {
         words.Add("pear");
@@ -32,14 +33,13 @@ public class Manager : MonoBehaviour {
             GameObject Bee = GameObject.Instantiate(BeePF);
             Bee.transform.Translate(i, -3, 0);
             Bee.GetComponent<BeeScript>().word = temp;
-            words.Remove(temp);
         }
         
         
         
     }
-    IEnumerable CheckEnemies()
+    /*IEnumerable CheckEnemies()
     {
 
-    }
+    }*/
 }
