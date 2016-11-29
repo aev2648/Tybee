@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
+    
 
     public int MaxLives = 5;
     private int CurrentLives;
@@ -20,4 +21,10 @@ public class Player : MonoBehaviour {
     {
         CurrentLives++;
     }
+    
+    void SendTextInput()
+    {
+        if
+    }
+
 }

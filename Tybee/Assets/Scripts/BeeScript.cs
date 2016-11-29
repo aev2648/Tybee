@@ -20,5 +20,14 @@ public class BeeScript : MonoBehaviour {
 	void Update () {
         
 	}
-
+    public int KillBee()
+    {
+        int points = Awardpoints();
+        destroy(gameObject);
+        return points;
+    }
+    public int AwardPoints()
+    {
+        return word.Length * speed * 100;
+    }
 }
