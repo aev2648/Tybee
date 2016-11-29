@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.UI;
@@ -6,9 +6,6 @@ using UnityEngine.UI;
 public class Manager : MonoBehaviour {
     private List<GameObject> bees;
     private List<string> words = new List<string>();
-    //public KeyCode checkword;
-
-
     public GameObject BeePF;
  
 	// Use this for initialization
@@ -35,11 +32,40 @@ public class Manager : MonoBehaviour {
             Bee.GetComponent<BeeScript>().word = temp;
         }
         
-        
-        
     }
-    /*IEnumerable CheckEnemies()
+    
+	IEnumerable CheckEnemies()
     {
 
-    }*/
+		PrintClosestEnemies();
+        yield return null;
+
+    }
+
+	// The script starts by calling this:
+	// Just print the name of all enemies,
+	// sorted as closest to furthest.
+
+
+	public void PrintClosestEnemies () 
+	{
+
+		bees.Sort(ByDistance);
+
+		// Show the results;
+		// list[0] will be the closest,
+		// list[1] will be the second closest,
+		// list[2] will be the third closest,
+		// ... and so on.    
+		foreach (GameObject Bees in bees){
+			print(Bees);
+		}
+	}
+
+	public int ByDistance(GameObject a, GameObject b)
+	{   
+		var dstToA = Vector3.Distance(transform.position, a.transform.position);
+		var dstToB = Vector3.Distance(transform.position, b.transform.position);
+		return dstToA.CompareTo(dstToB);
+	}
 }
