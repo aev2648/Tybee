@@ -6,14 +6,20 @@ using UnityEngine.UI;
 public class Manager : MonoBehaviour {
     private List<GameObject> bees;
     private List<string> words = new List<string>();
+
     public GameObject BeePF;
+    public GameObject PlayerPF;
+
+
  
 	// Use this for initialization
 	void Start () {
         words.Add("pear");
         words.Add("apple");
         words.Add("grape");
+        CreatePlayer();
         GenerateBees();
+
     }
 	
 	// Update is called once per frame
@@ -34,6 +40,12 @@ public class Manager : MonoBehaviour {
         
     }
     
+    void CreatePlayer()
+    {
+        GameObject player = GameObject.Instantiate(PlayerPF);
+        player.transform.Translate(0, 0, 0);
+    }
+
 	IEnumerable CheckEnemies()
     {
 
@@ -69,3 +81,4 @@ public class Manager : MonoBehaviour {
 		return dstToA.CompareTo(dstToB);
 	}
 }
+//Instantiate(gameObject, Vector3(Random.Range(minY, maxY), Random.Range(minZ,maxZ), Random.Range(minX,maxX)), Quaternion.identity)

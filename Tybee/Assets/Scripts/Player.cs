@@ -15,9 +15,19 @@ public class Player : MonoBehaviour {
     public void LoseLife()
     {
         CurrentLives--;
+        print(CurrentLives);
+        if(CurrentLives <= 0)
+        {
+            kill();
+        }
     }
     public void GainLife()
     {
         CurrentLives++;
+        print(CurrentLives);
+    }
+    public void kill()
+    {
+        Destroy(gameObject);
     }
 }
