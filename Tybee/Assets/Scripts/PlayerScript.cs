@@ -51,5 +51,8 @@ public class PlayerScript : MonoBehaviour {
 		Manager.instance.TryDestroyBee (inputedWord);
 		
     }
-
+	void OnMouseDown()
+	{
+		LoseLife ();
+	}
 }
