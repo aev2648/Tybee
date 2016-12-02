@@ -6,10 +6,13 @@ using UnityEngine.UI;
 public class Manager : MonoBehaviour {
     public static Manager instance;
 
-    private Dictionary<string, List<Gameobject>> bees;
+    private Dictionary<string, List<GameObject>> bees;
     private List<string> words = new List<string>();
-<<<<<<< HEAD
-    public GameObject BeePF;
+
+	public GameObject BeePF;
+	public GameObject PlayerPF;
+
+	public GameObject player;
     //public KeyCode checkword;
 
     private int points = 0;
@@ -26,66 +29,82 @@ public class Manager : MonoBehaviour {
 
         DontDestroyOnLoad(gameObject);
     }
-
-=======
-
-    public GameObject BeePF;
-    public GameObject PlayerPF;
-
-
- 
->>>>>>> 13c8eab72ebc54f878875de3c6182630908d587b
 	// Use this for initialization
 	void Start () {
         words.Add("pear");
         words.Add("apple");
         words.Add("grape");
+		words.Add("berry");
+		words.Add("kiwi");
+		words.Add("banana");
+		words.Add("plum");
+		words.Add("peach");
         CreatePlayer();
-        GenerateBees();
+		InvokeRepeating ("GenerateBee", 2,2);
 
     }
 	
 	// Update is called once per frame
 	void Update () {
-	    
 	}
 
-    void GenerateBees()
+	void GenerateBee(){
+		bees = new Dictionary<string, List<GameObject>>();
+		string temp = words[Random.Range(0, words.Count)];
+
+
+		GameObject Bee = GameObject.Instantiate(BeePF);
+		PositionBee (Bee);
+		Bee.transform.Translate(Random.Range(-12,12),-8, 0);
+		Bee.GetComponent<BeeScript>().word = temp;
+		
+		if(!bees.ContainsKey(temp))
+		{
+			bees.Add(temp, new List<GameObject>());
+		}
+		if (player == null) {
+			CancelInvoke ("GenerateBee");
+		}
+		
+		bees[temp].Add(Bee);
+	}
+
+	void PositionBee(GameObject bee)
+	{
+		int side = 2;
+		switch (side) {
+			case 1:
+			bee.transform.position = new Vector3(Random.Range(-12,12),-8, 0);
+				break;
+			case 2:
+			bee.transform.position = new Vector3(Random.Range(-12,12),0, 0);
+				break;
+			case 3:
+			bee.transform.position = new Vector3(12,Random.Range(-5,5), 0);
+				break;
+			case 4:
+			bee.transform.position = new Vector3(-12,Random.Range(-5,5), 0);
+				break;
+		}
+	}
+
+    bool checkword(string word, out List<GameObject> beeList)
     {
-        bees = new Dictionary<string, List<Gameobject>>();
-        for (int i = -4; i <= 4; i+= 4)
+        if(bees.TryGetValue(word, out beeList))
         {
-            string temp = words[Random.Range(0, words.Count)];
-            GameObject Bee = GameObject.Instantiate(BeePF);
-            Bee.transform.Translate(i, -3, 0);
-            Bee.GetComponent<BeeScript>().word = temp;
-            if(!bees.TryGetValue(temp))
-            {
-                bees.Add(temp, new List<Gameobject>());
-            }
-            bees[temp].Add(Bee);
-        }   
-    }
-    //
-    bool checkword(string word, out List<Gameobject> beeList)
-    {
-        List<GameObject> temp;
-        if(bees.TryGetValue(word, temp))
-        {
-            beelist = temp;
-            if (temp.Count != 0)
+            if (beeList.Count != 0)
             {
                 return true;
             }
         }
-<<<<<<< HEAD
         return false;
     }
 
     public bool TryDestroyBee(string word)
     {
+		print (word);
         List<GameObject> temp;
-        if (checkword(word, temp))
+        if (checkword(word, out temp))
         {
             GameObject tempBee = temp[0];
             temp.RemoveAt(0);
@@ -94,20 +113,14 @@ public class Manager : MonoBehaviour {
         }
         return false;
     }
-
-    /*IEnumerable CheckEnemies()
-=======
-        
-    }
-    
+	 
     void CreatePlayer()
->>>>>>> 13c8eab72ebc54f878875de3c6182630908d587b
     {
-        GameObject player = GameObject.Instantiate(PlayerPF);
+	    player = GameObject.Instantiate(PlayerPF);
         player.transform.Translate(0, 0, 0);
     }
 
-	IEnumerable CheckEnemies()
+	/*IEnumerable CheckEnemies()
     {
 
 		PrintClosestEnemies();
@@ -118,7 +131,6 @@ public class Manager : MonoBehaviour {
 	// The script starts by calling this:
 	// Just print the name of all enemies,
 	// sorted as closest to furthest.
-
 
 	public void PrintClosestEnemies () 
 	{
@@ -141,5 +153,6 @@ public class Manager : MonoBehaviour {
 		var dstToB = Vector3.Distance(transform.position, b.transform.position);
 		return dstToA.CompareTo(dstToB);
 	}
+
+*/
 }
-//Instantiate(gameObject, Vector3(Random.Range(minY, maxY), Random.Range(minZ,maxZ), Random.Range(minX,maxX)), Quaternion.identity)

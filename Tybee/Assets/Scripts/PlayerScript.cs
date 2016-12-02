@@ -1,18 +1,32 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.UI;
 
-public class Player : MonoBehaviour {
+
+public class PlayerScript : MonoBehaviour {
     
 
     public int MaxLives = 5;
     private int CurrentLives;
-    private string inputedWord;
+	public string inputedWord{ get; set; }
+
+	public KeyCode sendword;
 
     // Use this for initialization
     void Start () {
         CurrentLives = MaxLives;
         inputedWord = "";
 	}
+	
+	void update()
+	{
+		print (inputedWord);
+		if (Input.GetKeyDown(sendword)) {
+			SendTextInput();
+		}
+	}
+
     public void LoseLife()
     {
         CurrentLives--;
@@ -34,7 +48,8 @@ public class Player : MonoBehaviour {
     
     void SendTextInput()
     {
-        if
+		Manager.instance.TryDestroyBee (inputedWord);
+		
     }
 
 }

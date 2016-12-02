@@ -24,19 +24,15 @@ public class BeeScript : MonoBehaviour {
         float step = speed * (Time.deltaTime * maxDistanceDelta);
         
         transform.position = Vector3.MoveTowards(transform.position, target.position, step);
-    }
 	}
-<<<<<<< HEAD
     public int KillBee()
     {
-        int points = Awardpoints();
-        destroy(gameObject);
+        int points = AwardPoints();
+        Destroy(gameObject);
         return points;
     }
     public int AwardPoints()
     {
-        return word.Length * speed * 100;
+		return word.Length * (int)speed * 100;
     }
 }
-=======
->>>>>>> 13c8eab72ebc54f878875de3c6182630908d587b
