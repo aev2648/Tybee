@@ -33,6 +33,6 @@ public class BeeScript : MonoBehaviour {
     }
     public int AwardPoints()
     {
-		return word.Length * (int)speed * 100;
+		return word.Length * (int)Mathf.Round(speed) * 100;
     }
 }

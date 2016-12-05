@@ -61,7 +61,6 @@ public class Manager : MonoBehaviour {
 
 		GameObject Bee = GameObject.Instantiate(BeePF);
 		PositionBee (Bee);
-		//Bee.transform.Translate(Random.Range(-12,12),-8, 0);
 		Bee.GetComponent<BeeScript>().word = temp;
 		
 		if(!bees.ContainsKey(temp))
@@ -69,6 +68,7 @@ public class Manager : MonoBehaviour {
 			bees.Add(temp, new List<GameObject>());
 		}
 		if (player == null) {
+            gameState = GameState.lost;
 			CancelInvoke ("GenerateBee");
 		}
 		
@@ -83,7 +83,7 @@ public class Manager : MonoBehaviour {
 			bee.transform.position = new Vector3(Random.Range(-12,12),-8, 0);
 				break;
 			case 2:
-			bee.transform.position = new Vector3(Random.Range(-12,12),0, 0);
+			bee.transform.position = new Vector3(Random.Range(-12,12),8, 0);
 				break;
 			case 3:
 			bee.transform.position = new Vector3(12,Random.Range(-5,5), 0);
