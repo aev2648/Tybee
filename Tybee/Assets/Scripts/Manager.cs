@@ -71,7 +71,7 @@ public class Manager : MonoBehaviour {
 
 	void PositionBee(GameObject bee)
 	{
-		int side = 2;
+        int side = Random.Range(1, 4) ;
 		switch (side) {
 			case 1:
 			bee.transform.position = new Vector3(Random.Range(-12,12),-8, 0);
