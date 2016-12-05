@@ -1,6 +1,6 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class Manager : MonoBehaviour {
@@ -32,43 +32,37 @@ public class Manager : MonoBehaviour {
         
         DontDestroyOnLoad(gameObject);
         
-        gameState = GameState.playing;
+        gameState = GameState.start;
     }
 	// Use this for initialization
 	void Start () {
         
-    if (gameState == GameState.playing){
-        words.Add("pear");
-        words.Add("apple");
-        words.Add("grape");
-		words.Add("berry");
-		words.Add("kiwi");
-		words.Add("banana");
-		words.Add("plum");
-		words.Add("peach");
-        CreatePlayer();
-		InvokeRepeating ("GenerateBee", 2,2);}
+    initializeModes();    
+
     }
-	
 	// Update is called once per frame
 	void Update () {
-	}
+        
+    }
 
 	void GenerateBee(){
 		bees = new Dictionary<string, List<GameObject>>();
 		string temp = words[Random.Range(0, words.Count)];
 
-
+//Alances (my partner) and I had some argument about this and I let him to change my codes. I intended to make the gameobject as object of bee class. But with this code - im not exactly sure if each bee is in their own list but I don't think so because they get assigned with words just fine... lets make a debug log of printing the dictionary?
+        
 		GameObject Bee = GameObject.Instantiate(BeePF);
 		PositionBee (Bee);
 		Bee.GetComponent<BeeScript>().word = temp;
 		
+        //needs comments!!
 		if(!bees.ContainsKey(temp))
 		{
 			bees.Add(temp, new List<GameObject>());
 		}
 		if (player == null) {
             gameState = GameState.lost;
+            initializeModes();
 			CancelInvoke ("GenerateBee");
 		}
 		
@@ -126,7 +120,7 @@ public class Manager : MonoBehaviour {
         player.transform.Translate(0, 0, 0);
     }
 
-	/*IEnumerable CheckEnemies()
+	IEnumerable CheckEnemies()
     {
 
 		PrintClosestEnemies();
@@ -159,8 +153,8 @@ public class Manager : MonoBehaviour {
 		var dstToB = Vector3.Distance(transform.position, b.transform.position);
 		return dstToA.CompareTo(dstToB);
 	}
-*/
-    public void OnGUI(){ //points
+
+    public void OnGUI(){
         
         GUIStyle pointsStyle = new GUIStyle ();
         GUIStyle menuButton = new GUIStyle();
@@ -172,7 +166,6 @@ public class Manager : MonoBehaviour {
 		GUI.color = Color.black;
         pointsStyle.fontSize = 87;
         GUI.Box (new Rect (270, 25, 0, 0), "Points: " + Mathf.RoundToInt(points).ToString (), pointsStyle);
-        
         }
         
         if (gameState == GameState.start){
@@ -184,8 +177,32 @@ public class Manager : MonoBehaviour {
         if (GUI.Button(new Rect(900, 1280, 960, 1280), ("Click"), menuButton)){
             Debug.Log("Switching to playing...");
             gameState = GameState.playing;
+            initializeModes();
             }
         }
-
 	}
-}
+    
+    void initializeModes(){
+        
+        Debug.Log("INIT: " + gameState);
+        
+        if (gameState == GameState.playing){
+        
+        words.Add("pear");
+        words.Add("apple");
+        words.Add("grape");
+		words.Add("berry");
+		words.Add("kiwi");
+		words.Add("banana");
+		words.Add("plum");
+		words.Add("peach");
+        CreatePlayer();
+		InvokeRepeating ("GenerateBee", 2,2);
+        }
+        
+        if (gameState == GameState.start){
+            
+            }
+            
+        }
+    }

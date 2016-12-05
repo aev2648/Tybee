@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class BeeScript : MonoBehaviour {
     public string word { get; set; }
-    public float speed = 0;
+    public float speed = 1;
     public Transform target;
 
 	// Use this for initialization
