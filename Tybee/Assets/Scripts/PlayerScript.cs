@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.UI;
@@ -54,5 +54,16 @@ public class PlayerScript : MonoBehaviour {
 	void OnMouseDown()
 	{
 		LoseLife ();
+	}
+
+    
+    void OnTriggerEnter2D(Collider2D other) {
+
+        if (other.gameObject.tag == "Respawn")
+		{
+			Destroy(other.gameObject);
+			LoseLife();
+			Debug.Log("Lives: " + CurrentLives);
+		}
 	}
 }
