@@ -4,8 +4,11 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class Manager : MonoBehaviour {
+    
+    public enum GameState {start, playing, lost};
+    private GameState gameState;
+    
     public static Manager instance;
-
     private Dictionary<string, List<GameObject>> bees;
     private List<string> words = new List<string>();
 
@@ -26,11 +29,15 @@ public class Manager : MonoBehaviour {
         }
 
         instance = this;
-
+        
         DontDestroyOnLoad(gameObject);
+        
+        gameState = GameState.playing;
     }
 	// Use this for initialization
 	void Start () {
+        
+    if (gameState == GameState.playing){
         words.Add("pear");
         words.Add("apple");
         words.Add("grape");
@@ -40,8 +47,7 @@ public class Manager : MonoBehaviour {
 		words.Add("plum");
 		words.Add("peach");
         CreatePlayer();
-		InvokeRepeating ("GenerateBee", 2,2);
-
+		InvokeRepeating ("GenerateBee", 2,2);}
     }
 	
 	// Update is called once per frame
@@ -55,7 +61,7 @@ public class Manager : MonoBehaviour {
 
 		GameObject Bee = GameObject.Instantiate(BeePF);
 		PositionBee (Bee);
-		Bee.transform.Translate(Random.Range(-12,12),-8, 0);
+		//Bee.transform.Translate(Random.Range(-12,12),-8, 0);
 		Bee.GetComponent<BeeScript>().word = temp;
 		
 		if(!bees.ContainsKey(temp))
@@ -153,6 +159,33 @@ public class Manager : MonoBehaviour {
 		var dstToB = Vector3.Distance(transform.position, b.transform.position);
 		return dstToA.CompareTo(dstToB);
 	}
-
 */
+    public void OnGUI(){ //points
+        
+        GUIStyle pointsStyle = new GUIStyle ();
+        GUIStyle menuButton = new GUIStyle();
+        GUIStyle menuRules = new GUIStyle();
+        
+        if (gameState == GameState.playing){
+        
+		GUI.backgroundColor = Color.clear;
+		GUI.color = Color.black;
+        pointsStyle.fontSize = 87;
+        GUI.Box (new Rect (270, 25, 0, 0), "Points: " + Mathf.RoundToInt(points).ToString (), pointsStyle);
+        
+        }
+        
+        if (gameState == GameState.start){
+            
+        GUI.backgroundColor = Color.white;
+		GUI.color = Color.black;
+        menuButton.fontSize = 87;
+        
+        if (GUI.Button(new Rect(900, 1280, 960, 1280), ("Click"), menuButton)){
+            Debug.Log("Switching to playing...");
+            gameState = GameState.playing;
+            }
+        }
+
+	}
 }
