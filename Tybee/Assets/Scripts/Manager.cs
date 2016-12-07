@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Manager : MonoBehaviour {
     
-    public enum GameState {start, playing, lost};
-    private GameState gameState;
+    public enum GameState {start, playing, lost, test};
+    public GameState gameState;
     
     public static Manager instance;
     private Dictionary<string, List<GameObject>> bees;
@@ -32,7 +32,7 @@ public class Manager : MonoBehaviour {
         
         DontDestroyOnLoad(gameObject);
         
-        gameState = GameState.start;
+        gameState = GameState.playing;
     }
 	// Use this for initialization
 	void Start () {
@@ -92,7 +92,7 @@ public class Manager : MonoBehaviour {
     {
         if(bees.TryGetValue(word, out beeList))
         {
-            if (beeList.Count != 0)
+            if (beeList.Count > 0)
             {
                 return true;
             }
@@ -102,7 +102,7 @@ public class Manager : MonoBehaviour {
 
     public bool TryDestroyBee(string word)
     {
-		print (word);
+		print ("checking word: " + word);
         List<GameObject> temp;
         if (checkword(word, out temp))
         {
@@ -120,7 +120,7 @@ public class Manager : MonoBehaviour {
         player.transform.Translate(0, 0, 0);
     }
 
-	IEnumerable CheckEnemies()
+	/*IEnumerable CheckEnemies()
     {
 
 		PrintClosestEnemies();
@@ -152,7 +152,7 @@ public class Manager : MonoBehaviour {
 		var dstToA = Vector3.Distance(transform.position, a.transform.position);
 		var dstToB = Vector3.Distance(transform.position, b.transform.position);
 		return dstToA.CompareTo(dstToB);
-	}
+	}*/
 
     public void OnGUI(){
         

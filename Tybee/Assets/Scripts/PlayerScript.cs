@@ -19,12 +19,16 @@ public class PlayerScript : MonoBehaviour {
         inputedWord = "";
 	}
 	
-	void update()
+	void Update()
 	{
-		print (inputedWord);
-		if (Input.GetKeyDown(sendword)) {
-			SendTextInput();
-		}
+        Text word = GameObject.Find("Word").GetComponent<Text>() as Text;
+        inputedWord = word.text.ToString() ;
+        print("word: " + word);
+        if (Input.GetKeyDown(sendword)) {
+            print("inputed word: " + inputedWord);
+            SendTextInput();
+            
+        }
 	}
 
     public void LoseLife()
@@ -49,7 +53,6 @@ public class PlayerScript : MonoBehaviour {
     void SendTextInput()
     {
 		Manager.instance.TryDestroyBee (inputedWord);
-		
     }
 	void OnMouseDown()
 	{
