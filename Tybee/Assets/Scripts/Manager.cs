@@ -119,8 +119,8 @@ public class Manager : MonoBehaviour {
 	    player = GameObject.Instantiate(PlayerPF);
         player.transform.Translate(0, 0, 0);
     }
-
-	IEnumerable CheckEnemies()
+    
+	/*IEnumerable CheckEnemies()
     {
 
 		PrintClosestEnemies();
@@ -152,7 +152,7 @@ public class Manager : MonoBehaviour {
 		var dstToA = Vector3.Distance(transform.position, a.transform.position);
 		var dstToB = Vector3.Distance(transform.position, b.transform.position);
 		return dstToA.CompareTo(dstToB);
-	}
+	}*/
 
     public void OnGUI(){
         
