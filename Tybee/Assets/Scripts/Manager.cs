@@ -9,7 +9,7 @@ public class Manager : MonoBehaviour {
     public GameState gameState;
     
     public static Manager instance;
-    private Dictionary<string, List<GameObject>> bees;
+    public List<GameObject> bees = new List<GameObject>();
     private List<string> words = new List<string>();
 
 	public GameObject BeePF;
@@ -46,7 +46,7 @@ public class Manager : MonoBehaviour {
     }
 
 	void GenerateBee(){
-		bees = new Dictionary<string, List<GameObject>>();
+		
 		string temp = words[Random.Range(0, words.Count)];
 
 //Alances (my partner) and I had some argument about this and I let him to change my codes. I intended to make the gameobject as object of bee class. But with this code - im not exactly sure if each bee is in their own list but I don't think so because they get assigned with words just fine... lets make a debug log of printing the dictionary?
@@ -56,23 +56,27 @@ public class Manager : MonoBehaviour {
 		Bee.GetComponent<BeeScript>().word = temp;
 		
         //needs comments!!
-		if(!bees.ContainsKey(temp))
-		{
-			bees.Add(temp, new List<GameObject>());
-		}
-		if (player == null) {
+
+        bees.Add(Bee);
+
+        print("Active Bees: " + bees.Count );
+        
+        
+        //stops generation when player dies.
+        if (player == null) {
             gameState = GameState.lost;
             initializeModes();
 			CancelInvoke ("GenerateBee");
 		}
 		
-		bees[temp].Add(Bee);
+
 	}
 
 	void PositionBee(GameObject bee)
 	{
         int side = Random.Range(1, 4) ;
-		switch (side) {
+        bee.transform.position = new Vector3(Random.Range(-7, 7), Random.Range(-4, 4), 0);
+        /*switch (side) {
 			case 1:
 			bee.transform.position = new Vector3(Random.Range(-12,12),-8, 0);
 				break;
@@ -85,32 +89,31 @@ public class Manager : MonoBehaviour {
 			case 4:
 			bee.transform.position = new Vector3(-12,Random.Range(-5,5), 0);
 				break;
-		}
-	}
-
-    bool checkword(string word, out List<GameObject> beeList)
-    {
-        if(bees.TryGetValue(word, out beeList))
-        {
-            if (beeList.Count > 0)
-            {
-                return true;
-            }
-        }
-        return false;
+		}*/
     }
 
     public bool TryDestroyBee(string word)
     {
-		print ("checking word: " + word);
-        List<GameObject> temp;
-        if (checkword(word, out temp))
+        print("checking word: " + word);
+        List<GameObject> temp = new List<GameObject>();
+        foreach (GameObject bee in bees)
         {
-            GameObject tempBee = temp[0];
-            temp.RemoveAt(0);
-            points += tempBee.GetComponent<BeeScript>().KillBee();
-            return true;
+            if (bee.GetComponent<BeeScript>().word == word)
+            {
+                temp.Add(bee);
+            }
         }
+        foreach (GameObject bee in temp)
+        {
+            print("Found Bee: " + bee);
+        }
+        if (temp.Count > 0)
+        {
+            bees.Remove(temp[0]);
+            points += temp[0].GetComponent<BeeScript>().AwardPoints();
+            temp[0].GetComponent<BeeScript>().KillBee();
+        }
+        
         return false;
     }
 	 
@@ -119,11 +122,8 @@ public class Manager : MonoBehaviour {
 	    player = GameObject.Instantiate(PlayerPF);
         player.transform.Translate(0, 0, 0);
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> c8d047295a77e7595481874bce78e8b28379d874
+
 	/*IEnumerable CheckEnemies()
     {
 

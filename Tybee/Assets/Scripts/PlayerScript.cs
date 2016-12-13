@@ -23,7 +23,6 @@ public class PlayerScript : MonoBehaviour {
 	{
         Text word = GameObject.Find("Word").GetComponent<Text>() as Text;
         inputedWord = word.text.ToString() ;
-        print("word: " + word);
         if (Input.GetKeyDown(sendword)) {
             print("inputed word: " + inputedWord);
             SendTextInput();
@@ -34,7 +33,7 @@ public class PlayerScript : MonoBehaviour {
     public void LoseLife()
     {
         CurrentLives--;
-        print(CurrentLives);
+        print("Lives: " + CurrentLives);
         if(CurrentLives <= 0)
         {
             kill();
@@ -43,7 +42,6 @@ public class PlayerScript : MonoBehaviour {
     public void GainLife()
     {
         CurrentLives++;
-        print(CurrentLives);
     }
     public void kill()
     {
@@ -64,6 +62,7 @@ public class PlayerScript : MonoBehaviour {
 
         if (other.gameObject.tag == "Respawn")
 		{
+            Manager.instance.GetComponent<Manager>().bees.Remove(other.gameObject);
 			Destroy(other.gameObject);
 			LoseLife();
 			Debug.Log("Lives: " + CurrentLives);

@@ -25,14 +25,14 @@ public class BeeScript : MonoBehaviour {
         
         transform.position = Vector3.MoveTowards(transform.position, target.position, step);
 	}
-    public int KillBee()
+    public void KillBee()
     {
-        int points = AwardPoints();
+
         Destroy(gameObject);
-        return points;
+
     }
     public int AwardPoints()
     {
-		return word.Length * (int)Mathf.Round(speed) * 100;
+		return word.Length * ((int)Mathf.Round(speed)+1) * 100;
     }
 }
