@@ -10,24 +10,50 @@ public class PlayerScript : MonoBehaviour {
     public int MaxLives = 5;
     private int CurrentLives;
 	public string inputedWord{ get; set; }
+    private Text word;
 
-	public KeyCode sendword;
+    public KeyCode sendword;
 
     // Use this for initialization
     void Start () {
+        word = GameObject.Find("Inputword").GetComponent<Text>() as Text;
         CurrentLives = MaxLives;
         inputedWord = "";
 	}
 	
 	void Update()
 	{
-        Text word = GameObject.Find("Word").GetComponent<Text>() as Text;
-        inputedWord = word.text.ToString() ;
-        if (Input.GetKeyDown(sendword)) {
+        
+
+        if (Input.anyKeyDown)
+        {
+            char c = Input.inputString.ToCharArray()[0];
+            print("inputed char: " + c);
+            if (c == "\b"[0])
+            { 
+                if (word.text.Length != 0)
+                    word.text = word.text.Substring(0, word.text.Length - 1);
+            }
+            else
+            {
+                if (c == "\n"[0] || c == "\r"[0])
+                {
+                    inputedWord = word.text;
+                    print("inputed word: " + inputedWord);
+                    SendTextInput();
+                    word.text = "";
+                }
+                else
+                    word.text += c;
+            }
+        }
+
+
+       /* if (Input.GetKeyDown(sendword)) {
             print("inputed word: " + inputedWord);
             SendTextInput();
             
-        }
+        }*/
 	}
 
     public void LoseLife()

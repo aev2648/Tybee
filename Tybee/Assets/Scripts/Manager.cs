@@ -75,8 +75,7 @@ public class Manager : MonoBehaviour {
 	void PositionBee(GameObject bee)
 	{
         int side = Random.Range(1, 4) ;
-        bee.transform.position = new Vector3(Random.Range(-7, 7), Random.Range(-4, 4), 0);
-        /*switch (side) {
+        switch (side) {
 			case 1:
 			bee.transform.position = new Vector3(Random.Range(-12,12),-8, 0);
 				break;
@@ -89,7 +88,7 @@ public class Manager : MonoBehaviour {
 			case 4:
 			bee.transform.position = new Vector3(-12,Random.Range(-5,5), 0);
 				break;
-		}*/
+		}
     }
 
     public bool TryDestroyBee(string word)
