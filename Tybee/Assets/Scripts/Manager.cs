@@ -29,6 +29,7 @@ public class Manager : MonoBehaviour {
     private float minSpeed = 0.3f;
     private float maxSpeed = 0.3f;
     
+    private int previousSideSpawn;
     StreamReader levelOneWords;
     string lineOfText = null;
     
@@ -107,21 +108,27 @@ public class Manager : MonoBehaviour {
 
 	void PositionBee(GameObject bee)
 	{
-        int side = Random.Range(1, 4) ;
+        int side = Random.Range(1, 4);
+        while(side == previousSideSpawn)
+        {
+            side = Random.Range(1, 4);
+        }
         switch (side) {
 			case 1:
-			bee.transform.position = new Vector3(Random.Range(-12,12),-7.5f, 0);
+			bee.transform.position = new Vector3(Random.Range(-7,7),-6, 0);
 				break;
 			case 2:
-			bee.transform.position = new Vector3(Random.Range(-12,12),7.5f, 0);
+			bee.transform.position = new Vector3(Random.Range(-7,7),6, 0);
 				break;
 			case 3:
-			bee.transform.position = new Vector3(11,Random.Range(-5,5), 0);
+			bee.transform.position = new Vector3(8,Random.Range(-5,5), 0);
 				break;
 			case 4:
-			bee.transform.position = new Vector3(-11,Random.Range(-5,5), 0);
+			bee.transform.position = new Vector3(-8,Random.Range(-5,5), 0);
 				break;
 		}
+        previousSideSpawn = side;
+        
     }
 
     public bool TryDestroyBee(string word)
