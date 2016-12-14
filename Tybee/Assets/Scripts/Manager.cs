@@ -7,7 +7,7 @@ using System.IO;
 
 public class Manager : MonoBehaviour {
     
-    public enum GameState {start, playing, lost, test};
+    public enum GameState {start, playing, lost};
     public GameState gameState;
     
     public static Manager instance;
@@ -170,53 +170,19 @@ public class Manager : MonoBehaviour {
             }
         }
     }
-	/*IEnumerable CheckEnemies()
-    {
-
-		PrintClosestEnemies();
-        yield return null;
-
-    }
-
-	// The script starts by calling this:
-	// Just print the name of all enemies,
-	// sorted as closest to furthest.
-
-	public void PrintClosestEnemies () 
-	{
-
-		bees.Sort(ByDistance);
-
-		// Show the results;
-		// list[0] will be the closest,
-		// list[1] will be the second closest,
-		// list[2] will be the third closest,
-		// ... and so on.    
-		foreach (GameObject Bees in bees){
-			print(Bees);
-		}
-	}
-
-	public int ByDistance(GameObject a, GameObject b)
-	{   
-		var dstToA = Vector3.Distance(transform.position, a.transform.position);
-		var dstToB = Vector3.Distance(transform.position, b.transform.position);
-		return dstToA.CompareTo(dstToB);
-	}*/
-
+	
     public void OnGUI(){
         
         GUIStyle playingStyle = new GUIStyle ();
         GUIStyle menuButton = new GUIStyle();
         
         if (gameState == GameState.playing){
-        
-		GUI.backgroundColor = Color.clear;
+            
 		GUI.color = Color.black;
         playingStyle.fontSize = 50;
-        GUI.Box (new Rect (50, 25, 0, 0), "Points: " + Mathf.RoundToInt(points).ToString (), playingStyle);
+        GUI.Box (new Rect (50, 25, 0,0), "Points: " + Mathf.RoundToInt(points).ToString (), playingStyle);
         
-        if (GUI.Button(new Rect(800, 25, 800, 25), ("Menu"), playingStyle)){
+        if (GUI.Button(new Rect(800, 25, 850,75), ("Menu"), playingStyle)){
             Debug.Log("Switching to start...");
             gameState = GameState.start;
             initializeModes();
@@ -225,16 +191,24 @@ public class Manager : MonoBehaviour {
         }
         
         if (gameState == GameState.start){
-            
-        GUI.backgroundColor = Color.white;
+        
+        
 		GUI.color = Color.black;
         menuButton.fontSize = 87;
         
-        if (GUI.Button(new Rect(400, 500, 960, 1280), ("Click"), menuButton)){
+        if (GUI.Button(new Rect(400, 500, 500,600), ("Play"), menuButton)){
             Debug.Log("Switching to playing...");
             gameState = GameState.playing;
             initializeModes();
             }
+        
+        if (GUI.Button(new Rect(400, 0, 500,100), ("Reset"), menuButton)){
+            Debug.Log("Resetting...");
+            player.GetComponent<PlayerScript>().kill();
+            CreatePlayer();
+            gameState = GameState.playing;
+            initializeModes();
+            }    
         }
 	}
     
@@ -253,6 +227,11 @@ public class Manager : MonoBehaviour {
             Time.timeScale = 0;
             CancelInvoke ("GenerateBee");
             }
+        
+        if (gameState == GameState.lost){
+            
+            
+        }
             
         }
     }
