@@ -29,6 +29,7 @@ public class Manager : MonoBehaviour {
     private float minSpeed = 0.3f;
     private float maxSpeed = 0.3f;
     
+    private int previousSideSpawn;
     StreamReader levelOneWords;
     string lineOfText = null;
     
@@ -107,21 +108,27 @@ public class Manager : MonoBehaviour {
 
 	void PositionBee(GameObject bee)
 	{
-        int side = Random.Range(1, 4) ;
+        int side = Random.Range(1, 4);
+        while(side == previousSideSpawn)
+        {
+            side = Random.Range(1, 4);
+        }
         switch (side) {
 			case 1:
-			bee.transform.position = new Vector3(Random.Range(-12,12),-7.5f, 0);
+			bee.transform.position = new Vector3(Random.Range(-7,7),-6, 0);
 				break;
 			case 2:
-			bee.transform.position = new Vector3(Random.Range(-12,12),7.5f, 0);
+			bee.transform.position = new Vector3(Random.Range(-7,7),6, 0);
 				break;
 			case 3:
-			bee.transform.position = new Vector3(11,Random.Range(-5,5), 0);
+			bee.transform.position = new Vector3(8,Random.Range(-5,5), 0);
 				break;
 			case 4:
-			bee.transform.position = new Vector3(-11,Random.Range(-5,5), 0);
+			bee.transform.position = new Vector3(-8,Random.Range(-5,5), 0);
 				break;
 		}
+        previousSideSpawn = side;
+        
     }
 
     public bool TryDestroyBee(string word)
@@ -175,14 +182,16 @@ public class Manager : MonoBehaviour {
         
         GUIStyle playingStyle = new GUIStyle ();
         GUIStyle menuButton = new GUIStyle();
+        GUIStyle lostStyle = new GUIStyle();
+        
+        GUI.color = Color.black;
         
         if (gameState == GameState.playing){
             
-		GUI.color = Color.black;
         playingStyle.fontSize = 50;
-        GUI.Box (new Rect (50, 25, 0,0), "Points: " + Mathf.RoundToInt(points).ToString (), playingStyle);
+        GUI.Box (new Rect (50, 25, 0,0), "Score: " + Mathf.RoundToInt(points).ToString (), playingStyle);
         
-        if (GUI.Button(new Rect(800, 25, 850,75), ("Menu"), playingStyle)){
+        if (GUI.Button(new Rect(800, 25, 800,125), ("Menu"), playingStyle)){
             Debug.Log("Switching to start...");
             gameState = GameState.start;
             initializeModes();
@@ -191,25 +200,27 @@ public class Manager : MonoBehaviour {
         }
         
         if (gameState == GameState.start){
-        
-        
-		GUI.color = Color.black;
+            
         menuButton.fontSize = 87;
         
-        if (GUI.Button(new Rect(400, 500, 500,600), ("Play"), menuButton)){
+        if (GUI.Button(new Rect(400, 500, 400,600), ("Play"), menuButton)){
             Debug.Log("Switching to playing...");
             gameState = GameState.playing;
             initializeModes();
-            }
-        
-        if (GUI.Button(new Rect(400, 0, 500,100), ("Reset"), menuButton)){
-            Debug.Log("Resetting...");
-            player.GetComponent<PlayerScript>().kill();
-            CreatePlayer();
-            gameState = GameState.playing;
-            initializeModes();
-            }    
+            } 
         }
+        
+        /*if (gameState == GameState.lost){
+            
+            lostStyle.fontSize = 50;
+            if (GUI.Button(new Rect(350, 500, 400,600), ("PLAY AGAIN"), lostStyle)){
+            
+            gameState = GameState.start;
+            CreatePlayer();
+            Application.LoadLevel (0);
+            }
+        }*/
+
 	}
     
     void initializeModes(){
@@ -228,10 +239,9 @@ public class Manager : MonoBehaviour {
             CancelInvoke ("GenerateBee");
             }
         
-        if (gameState == GameState.lost){
-            
-            
-        }
+        /*if (gameState == GameState.lost){
+              
+        }*/
             
         }
     }
