@@ -248,26 +248,28 @@ public class Manager : MonoBehaviour {
             
             if (GUI.Button(new Rect((Screen.width/2) - 250, (Screen.height/2), (Screen.width/2) - 150, (Screen.height) + 100), ("PLAY AGAIN"), lostStyle)){
             
-            points = 0;
-            level = 0;
-            lvlscale = 2;
+                points = 0;
+                level = 0;
+                lvlscale = 2;
+                nextlvlpoints = 4500;
+
+
+                foreach (GameObject bee in bees)
+                {
+
+                    Destroy(bee);
+                    bees.Remove(bee);
+                }
             
-            for(int i = 0; i < bees.Count; i++){
+                if (player != null){
                 
-                GameObject temp = bees[i]; 
-                bees.Remove(temp);
-                Destroy(temp);
-            }
+                    player.GetComponent<PlayerScript>().kill(); 
+                }
             
-            if (player != null){
-                
-                player.GetComponent<PlayerScript>().kill(); 
-            }
-            
-            Debug.Log("Switching to start...");
-            gameState = GameState.start;
-            CreatePlayer();
-            initializeModes();
+                Debug.Log("Switching to start...");
+                gameState = GameState.start;
+                CreatePlayer();
+                initializeModes();
             }
             
             }
