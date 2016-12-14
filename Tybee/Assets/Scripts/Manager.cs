@@ -21,6 +21,13 @@ public class Manager : MonoBehaviour {
     //public KeyCode checkword;
 
     private int points = 0;
+    private int nextlvlpoints = 4500;
+
+    private int level = 0;
+    private int lvlscale = 2;
+
+    private float minSpeed = 0.3f;
+    private float maxSpeed = 0.3f;
     
     StreamReader levelOneWords;
     string lineOfText = null;
@@ -63,19 +70,19 @@ public class Manager : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
-        
+      
     }
 
 	void GenerateBee(){
 		
 		string temp = words[Random.Range(0, words.Count)];
 
-//Alances (my partner) and I had some argument about this and I let him to change my codes. I intended to make the gameobject as object of bee class. But with this code - im not exactly sure if each bee is in their own list but I don't think so because they get assigned with words just fine... lets make a debug log of printing the dictionary?
         
 		GameObject Bee = GameObject.Instantiate(BeePF);
 		PositionBee (Bee);
 		Bee.GetComponent<BeeScript>().word = temp;
-		
+        Bee.GetComponent<BeeScript>().speed = Random.Range(minSpeed, maxSpeed);
+
         //needs comments!!
 
         bees.Add(Bee);
@@ -85,6 +92,10 @@ public class Manager : MonoBehaviour {
         
         //stops generation when player dies.
         if (player == null) {
+            foreach (GameObject bee in bees)
+            {
+                bee.GetComponent<BeeScript>().speed = 0;
+            }
             gameState = GameState.lost;
             initializeModes();
 			CancelInvoke ("GenerateBee");
@@ -98,16 +109,16 @@ public class Manager : MonoBehaviour {
         int side = Random.Range(1, 4) ;
         switch (side) {
 			case 1:
-			bee.transform.position = new Vector3(Random.Range(-12,12),-8, 0);
+			bee.transform.position = new Vector3(Random.Range(-12,12),-7.5f, 0);
 				break;
 			case 2:
-			bee.transform.position = new Vector3(Random.Range(-12,12),8, 0);
+			bee.transform.position = new Vector3(Random.Range(-12,12),7.5f, 0);
 				break;
 			case 3:
-			bee.transform.position = new Vector3(12,Random.Range(-5,5), 0);
+			bee.transform.position = new Vector3(11,Random.Range(-5,5), 0);
 				break;
 			case 4:
-			bee.transform.position = new Vector3(-12,Random.Range(-5,5), 0);
+			bee.transform.position = new Vector3(-11,Random.Range(-5,5), 0);
 				break;
 		}
     }
@@ -132,8 +143,10 @@ public class Manager : MonoBehaviour {
             bees.Remove(temp[0]);
             points += temp[0].GetComponent<BeeScript>().AwardPoints();
             temp[0].GetComponent<BeeScript>().KillBee();
+            AttemptLevelUp();
+            return true;
         }
-        
+
         return false;
     }
 	 
@@ -142,7 +155,20 @@ public class Manager : MonoBehaviour {
 	    player = GameObject.Instantiate(PlayerPF);
         player.transform.Translate(0, 0, 0);
     }
-
+    
+    void AttemptLevelUp()
+    {
+        if(points > nextlvlpoints)
+        {
+            nextlvlpoints = 2000 * lvlscale;
+            lvlscale *= lvlscale;
+            maxSpeed += 0.15f;
+            if(level%2 == 0)
+            {
+                minSpeed += 0.1f;
+            }
+        }
+    }
 	/*IEnumerable CheckEnemies()
     {
 
