@@ -43,7 +43,7 @@ public class Manager : MonoBehaviour {
         
         DontDestroyOnLoad(gameObject);
         
-        gameState = GameState.playing;
+        gameState = GameState.start;
         
         Debug.Log("Compiling word database...");
         
@@ -65,7 +65,8 @@ public class Manager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
     
-    initializeModes();    
+    initializeModes();
+    CreatePlayer();
 
     }
 	// Update is called once per frame
@@ -205,16 +206,22 @@ public class Manager : MonoBehaviour {
 
     public void OnGUI(){
         
-        GUIStyle pointsStyle = new GUIStyle ();
+        GUIStyle playingStyle = new GUIStyle ();
         GUIStyle menuButton = new GUIStyle();
-        GUIStyle menuRules = new GUIStyle();
         
         if (gameState == GameState.playing){
         
 		GUI.backgroundColor = Color.clear;
 		GUI.color = Color.black;
-        pointsStyle.fontSize = 87;
-        GUI.Box (new Rect (270, 25, 0, 0), "Points: " + Mathf.RoundToInt(points).ToString (), pointsStyle);
+        playingStyle.fontSize = 50;
+        GUI.Box (new Rect (50, 25, 0, 0), "Points: " + Mathf.RoundToInt(points).ToString (), playingStyle);
+        
+        if (GUI.Button(new Rect(800, 25, 800, 25), ("Menu"), playingStyle)){
+            Debug.Log("Switching to start...");
+            gameState = GameState.start;
+            initializeModes();
+            }
+        
         }
         
         if (gameState == GameState.start){
@@ -223,7 +230,7 @@ public class Manager : MonoBehaviour {
 		GUI.color = Color.black;
         menuButton.fontSize = 87;
         
-        if (GUI.Button(new Rect(900, 1280, 960, 1280), ("Click"), menuButton)){
+        if (GUI.Button(new Rect(400, 500, 960, 1280), ("Click"), menuButton)){
             Debug.Log("Switching to playing...");
             gameState = GameState.playing;
             initializeModes();
@@ -236,22 +243,15 @@ public class Manager : MonoBehaviour {
         Debug.Log("INIT: " + gameState);
         
         if (gameState == GameState.playing){
-        
-        
-        /*words.Add("pear");
-        words.Add("apple");
-        words.Add("grape");
-		words.Add("berry");
-		words.Add("kiwi");
-		words.Add("banana");
-		words.Add("plum");
-		words.Add("peach");*/
-        CreatePlayer();
+            
+        Time.timeScale = 1;
 		InvokeRepeating ("GenerateBee", 2,2);
         }
         
         if (gameState == GameState.start){
             
+            Time.timeScale = 0;
+            CancelInvoke ("GenerateBee");
             }
             
         }

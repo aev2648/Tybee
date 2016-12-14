@@ -8,7 +8,7 @@ public class PlayerScript : MonoBehaviour {
     
 
     public int MaxLives = 5;
-    private int CurrentLives;
+    public int CurrentLives;
 	public string inputedWord{ get; set; }
     private Text word;
 
