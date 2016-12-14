@@ -197,6 +197,8 @@ public class Manager : MonoBehaviour {
             initializeModes();
             }
         
+        GUI.Box(new Rect(50, 80, 0, 0), "Lives: " + player.GetComponent<PlayerScript>().CurrentLives.ToString(), playingStyle);
+        
         }
         
         if (gameState == GameState.start){
@@ -230,25 +232,46 @@ public class Manager : MonoBehaviour {
                 player.GetComponent<PlayerScript>().kill(); 
             }
             
-            Debug.Log("Switching to playing...");
-            gameState = GameState.playing;
+            Debug.Log("Switching to lost...");
+            gameState = GameState.lost;
             CreatePlayer();
             initializeModes();
             
         }
         }
         
-        /*if (gameState == GameState.lost){
+        if (gameState == GameState.lost){
             
-            if (GUI.Button(new Rect(350, 500, 400,600), ("PLAY AGAIN"), lostStyle)){
+            lostStyle.fontSize = 87;
             
+            GUI.Box(new Rect((Screen.width/2) - 150, (Screen.height/2) - 100, 0, 0), "Score: " + points, lostStyle);
+            
+            if (GUI.Button(new Rect((Screen.width/2) - 250, (Screen.height/2), (Screen.width/2) - 150, (Screen.height) + 100), ("PLAY AGAIN"), lostStyle)){
+            
+            points = 0;
+            level = 0;
+            lvlscale = 2;
+            
+            for(int i = 0; i < bees.Count; i++){
+                
+                GameObject temp = bees[i]; 
+                bees.Remove(temp);
+                Destroy(temp);
+            }
+            
+            if (player != null){
+                
+                player.GetComponent<PlayerScript>().kill(); 
+            }
+            
+            Debug.Log("Switching to start...");
             gameState = GameState.start;
             CreatePlayer();
-            Application.LoadLevel (0);
+            initializeModes();
             }
-        }*/
-
-	}
+            
+            }
+        }
     
     void initializeModes(){
         

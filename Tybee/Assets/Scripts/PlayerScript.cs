@@ -47,13 +47,6 @@ public class PlayerScript : MonoBehaviour {
                     word.text += c;
             }
         }
-
-
-       /* if (Input.GetKeyDown(sendword)) {
-            print("inputed word: " + inputedWord);
-            SendTextInput();
-            
-        }*/
 	}
 
     public void LoseLife()
