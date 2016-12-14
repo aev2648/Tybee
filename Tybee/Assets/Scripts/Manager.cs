@@ -203,16 +203,42 @@ public class Manager : MonoBehaviour {
             
         menuButton.fontSize = 87;
         
-        if (GUI.Button(new Rect(400, 500, 400,600), ("Play"), menuButton)){
+        GUI.Box(new Rect((Screen.width/2) - 100, 25,0,0), "Tybee", menuButton);    
+            
+        if (GUI.Button(new Rect(200, 500, 400,600), ("Play"), menuButton)){
             Debug.Log("Switching to playing...");
             gameState = GameState.playing;
             initializeModes();
             } 
         }
         
+        if (GUI.Button(new Rect(600, 500, 400, 600), ("Reset"), menuButton)){
+            
+            points = 0;
+            level = 0;
+            lvlscale = 2;
+            
+            for(int i = 0; i < bees.Count; i++){
+                
+                GameObject temp = bees[i]; 
+                bees.Remove(temp);
+                Destroy(temp);
+            }
+            
+            if (player != null){
+                
+                player.GetComponent<PlayerScript>().kill(); 
+            }
+            
+            Debug.Log("Switching to playing...");
+            gameState = GameState.playing;
+            CreatePlayer();
+            initializeModes();
+            
+        }
+        
         /*if (gameState == GameState.lost){
             
-            lostStyle.fontSize = 50;
             if (GUI.Button(new Rect(350, 500, 400,600), ("PLAY AGAIN"), lostStyle)){
             
             gameState = GameState.start;
