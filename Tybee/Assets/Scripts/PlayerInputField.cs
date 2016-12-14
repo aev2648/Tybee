@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PlayerInputField : MonoBehaviour {
@@ -10,6 +10,7 @@ public class PlayerInputField : MonoBehaviour {
 
 	}
 
+    //parses player's input
 	public void charField(string input)
 	{
 		player.GetComponent<PlayerScript> ().inputedWord = input;

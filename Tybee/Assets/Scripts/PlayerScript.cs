@@ -16,6 +16,7 @@ public class PlayerScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        
         word = GameObject.Find("Inputword").GetComponent<Text>() as Text;
         CurrentLives = MaxLives;
         inputedWord = "";
@@ -24,7 +25,7 @@ public class PlayerScript : MonoBehaviour {
 	void Update()
 	{
         
-
+        //constantly checks if the player enters any key and updates the input field. and when the player presses enter, it parses player's input
         if (Input.anyKeyDown)
         {
             char c = Input.inputString.ToCharArray()[0];
@@ -49,6 +50,7 @@ public class PlayerScript : MonoBehaviour {
         }
 	}
 
+    //when a bee hits the player, the player loses a life. when the player loses all 5 lives, player is killed.
     public void LoseLife()
     {
         CurrentLives--;
@@ -58,25 +60,26 @@ public class PlayerScript : MonoBehaviour {
             kill();
         }
     }
-    public void GainLife()
+    
+    
+    /*public void GainLife()
     {
         CurrentLives++;
-    }
+    }*/
+    
+    //destroys a gameObject
     public void kill()
     {
         Destroy(gameObject);
     }
     
+    //uses an instance to communicate with manager's TryDestroyBee -- to see if the player's input is matched -- if so -- a matched bee is destroyed
     void SendTextInput()
     {
 		Manager.instance.TryDestroyBee (inputedWord);
     }
-	void OnMouseDown()
-	{
-		LoseLife ();
-	}
 
-    
+    //when the bees hit player (bear), the player loses a life.
     void OnTriggerEnter2D(Collider2D other) {
 
         if (other.gameObject.tag == "Respawn")
