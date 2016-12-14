@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.IO;
+
 
 public class Manager : MonoBehaviour {
     
@@ -19,8 +21,10 @@ public class Manager : MonoBehaviour {
     //public KeyCode checkword;
 
     private int points = 0;
-     
-
+    
+    StreamReader levelOneWords;
+    string lineOfText = null;
+    
     void Awake()
     {
         if(instance!= null && instance != this)
@@ -33,10 +37,27 @@ public class Manager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
         
         gameState = GameState.playing;
+        
+        Debug.Log("Compiling word database...");
+        
+        levelOneWords = new StreamReader("Assets/Words/level1words.txt");
+        
+        while ((lineOfText = levelOneWords.ReadLine()) != null)
+            {
+                string[] splitData = lineOfText.Split('|');
+                
+                for(int i = 0; i < splitData.Length; i++){
+                
+                    words.Add(splitData[i]);
+                }
+            }
+        
+        levelOneWords.Close();
+        
     }
 	// Use this for initialization
 	void Start () {
-        
+    
     initializeModes();    
 
     }
@@ -122,7 +143,6 @@ public class Manager : MonoBehaviour {
         player.transform.Translate(0, 0, 0);
     }
 
-
 	/*IEnumerable CheckEnemies()
     {
 
@@ -191,14 +211,15 @@ public class Manager : MonoBehaviour {
         
         if (gameState == GameState.playing){
         
-        words.Add("pear");
+        
+        /*words.Add("pear");
         words.Add("apple");
         words.Add("grape");
 		words.Add("berry");
 		words.Add("kiwi");
 		words.Add("banana");
 		words.Add("plum");
-		words.Add("peach");
+		words.Add("peach");*/
         CreatePlayer();
 		InvokeRepeating ("GenerateBee", 2,2);
         }
