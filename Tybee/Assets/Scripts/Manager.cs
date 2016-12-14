@@ -210,7 +210,7 @@ public class Manager : MonoBehaviour {
             gameState = GameState.playing;
             initializeModes();
             } 
-        }
+        
         
         if (GUI.Button(new Rect(600, 500, 400, 600), ("Reset"), menuButton)){
             
@@ -235,6 +235,7 @@ public class Manager : MonoBehaviour {
             CreatePlayer();
             initializeModes();
             
+        }
         }
         
         /*if (gameState == GameState.lost){
